@@ -21,16 +21,24 @@ envman add --key EXAMPLE_STEP_OUTPUT --value 'the value you want to share'
 #  with a 0 exit code `bitrise` will register your Step as "successful".
 # Any non zero exit code will be registered as "failed" by `bitrise`.
 
-GOJIRA_VERSION="0.2.1"
-
+# Fetch from bitrise secrets
 export GOJIRA_BASEURL=${jira_baseurl}
 export GOJIRA_USERNAME=${jira_username}
 export GOJIRA_PASSWORD=${jira_password}
 
-KERNEL_NAME=$(uname | awk '{print tolower($0)}')
+# Version by gojira
+GOJIRA_VERSION="0.2.4"
 
-curl -LO https://github.com/junkpiano/gojira/releases/download/${GOJIRA_VERSION}/gojira-${KERNEL_NAME}-amd64.zip
-unzip gojira-${KERNEL_NAME}-amd64.zip
-cd gojira-${KERNEL_NAME}-amd64
+# Download gojira
+curl -LO https://github.com/peiru6263/gojira/releases/download/${GOJIRA_VERSION}/gojira-darwin-amd64.zip
+unzip gojira-darwin-amd64.zip
 
-echo "${content}" | bash
+# Setup fields
+jql="project=TIMA AND issue in (${jira_tickets})"
+transition_passback_id=751
+transition_intest_id=721
+
+# Execute jira tasks
+./gojira transition --jql "${jql}" --action $transition_passback_id --comment "${jira_comment}"
+./gojira transition --jql "${jql}" --action $transition_intest_id
+./gojira assignee --jql "${jql}" --user "${jira_assignee}"

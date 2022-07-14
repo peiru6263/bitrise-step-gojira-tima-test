@@ -63,38 +63,34 @@ toolkit:
 
 
 inputs:
-  - jira_baseurl: Jira address where you are hosting
+  - jira_baseurl:
     opts:
       title: "Jira Base URL"
-      summary: Jira Base URL
+      summary: Jira address where you are hosting
       is_required: true
-  - jira_username: Jira Username
+  - jira_username:
     opts:
       title: "Jira Username"
       summary: Put jira username to login
       is_required: true
-  - jira_password: Jira Password
+  - jira_password:
     opts:
       title: "Jira Password"
-      summary: Jira Password
+      summary: Put jira password to login
       is_sensitive: true
       is_required: true
-  - content: |-
-      #!/usr/bin/env bash
-
-      # write your script here
-      echo "Hello World!"
-      # or run a script from your repository, like:
-      # bash ./path/to/script.sh
-      # not just bash, e.g.:
-      # ruby ./path/to/script.rb
-      # ./gojira transition --jql "jql" --action transition_id
-      # ./gojira assignee --jql "jql" --reporter
+  - jira_tickets:
     opts:
-      description: |
-        Type your script here.
-        **Make sure that it returns a non zero exit code in case of an error!**
-        The step will only fail if your script returns with a non zero exit code!
-      is_expand: false
+      title: "Jira Tickets"
+      summary: TIMA-1234,TIMA-5678
       is_required: true
-      title: Script content
+  - jira_comment:
+    opts:
+      title: "Jira Comment"
+      summary: Jira comment
+      is_required: true
+  - jira_assignee:
+    opts:
+      title: "Jira Assignee Username"
+      summary: Jira assignee username
+      is_required: true
